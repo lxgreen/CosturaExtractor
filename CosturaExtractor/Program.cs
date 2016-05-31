@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using CommandLine;
 
 namespace CosturaExtractor
 {
-    class Program
+    internal class Program
     {
         // Represents the command line options
         private class CLIOptions
@@ -22,14 +19,13 @@ namespace CosturaExtractor
             public string OutputDirectory { get; set; }
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var options = new CLIOptions();
             if (CommandLine.Parser.Default.ParseArguments(args, options))
             {
                 ProcessAssembly(options.AssemblyName, options.OutputDirectory);
             }
-
         }
 
         private static void ProcessAssembly(string assemblyName, string outputDirectory)
@@ -47,13 +43,12 @@ namespace CosturaExtractor
                         {
                             CopyTo(compressStream, fileWriter);
                         }
-
                     }
                 }
             }
         }
 
-        static void CopyTo(Stream source, Stream destination)
+        private static void CopyTo(Stream source, Stream destination)
         {
             var array = new byte[81920];
             int count;
@@ -67,6 +62,5 @@ namespace CosturaExtractor
         {
             return assemblyToScan.GetManifestResourceNames().Where(name => name.EndsWith(".dll.zip"));
         }
-
     }
 }
